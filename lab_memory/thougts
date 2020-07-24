@@ -1,0 +1,72 @@
+step1: from Allocator::debug():
+  I know that the problem is room[i].letters are the same when i>=1. 
+  That's why when we rooms[i].addLetter(xxx) will affect others.
+  In order to investigage why, I wrote the debug2 function
+  And if you print rooms[i].letters before and after calling loadrooms(file), you will see that the problem is caused by loadrooms function.
+
+step2: from Allocator::debug2():
+  we bascially confirm that after rooms[i] = fileio::nextRoom(), each room[i] has the same "letters". So something is wrong with nextRoom (readRoom). In readRoom, we will return by value, so desctructor+copy constructor are invoked. We notice that it's a shallow copy so rooms[i].letters will simply hold the memory address ( 0xffff for example). And in desctructor, we will delete it so 0xffff is free'd up for next use. So next time when we call readRoom, we will re-use 0xffff and pass this value to rooms[i+1].letters. That's why rooms[i].letters and rooms[i+1].letters are the same.
+
+step3: So I fix the following in void Room::copy(const Room& other):
+
+change letters = other.letters 
+into 
+letters = new Letter(*other.letters);
+
+step4: Add deconstructor for Allocator class:
+
+delete[] alpha;
+aelete[] rooms;
+
+Then there will be seg faults. This is because rooms[4].letters overlap with rooms[3].letters in the heap memory, so if you delete rooms[4] after deleting rooms[3]. Just like this naive example 
+
+(
+  int *a = new int(5);
+  delete a; 
+  delete a; 
+)
+
+if you print the address for rooms[3].letters and rooms[4].letters, they are like 0x20, 0x40. And sizeof(letter)==8. So after calling addLetters() on rooms[3] for 4 times, they overlap. The thing is when we construct the Room rooms[9], each room[i] has Letters *letter = new Letters[26], the spacing should be at least 26*8. Why rooms[i].letters and rooms[i+1].letters are only 20 bytes away from each other?This is because our deep copy is not correct.
+
+I did a quick check
+
+{
+  Letter *a = new Letter();
+  Letter *b = new Letter();
+  std::cout << a << std::endl;
+  std::cout << b << std::endl;
+
+  Letter *a = new Letter[26];
+  Letter *b = new Letter[26];
+  std::cout << a << std::endl;
+  std::cout << b << std::endl;
+
+  
+}
+
+and a&b are only 20 bytes separated away on the heap, which is exactly the same as our rooms[3].letters and rooms[4].letters. That means when we construct the room[i], the pointer letters is not correctly
+initialized. It should be pointing to letters[26] rather than letter. And we know that rooms[i] is constructed by the copy constructor when we return by value in readRoom(fileio.cpp).
+
+letters = new Letter(*other.letters);
+ 
+The above constructs an object (*other.letters) on the heap and return the pointer to it, this is how we construct rooms[i].letters. The thing is, *other.letters is the Letter[0], so this pointer is pointing to the 1st element of Letter[26], which is only a letter, rather than an array of letter. So this is the same to the quick check above. That means when we construct each room[i] on the heap, we are initializing its letters to a letter, rather than an array of letter. That's why rooms[i].letters and rooms[i+1].letters are only 20 bytes away.
+
+step5: 
+letters = new Letter[26];
+for(int i=0;i<26;i++){
+  letters[i] = other.letters[i];
+}
+
+note letter class is simple enough so an automatic assignment operator is good enough.
+
+Conclusion is that:
+(i) when a class contain a pointer, it's better to use deep copy in the copy constructor, like
+
+letters = new Letter(*other.letters)
+
+(ii) when such a pointer is point to an array:
+
+letters = new Letters[26];
+for(int l=0;l<26;i++){
+  letters[i] = others.letters[i];
+}

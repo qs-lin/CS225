@@ -1,0 +1,18 @@
+EXENAME = intro
+OBJS = main.o intro.o HSLAPixel.o lodepng.o PNG.o
+
+all: $(EXENAME)
+
+$(EXENAME): $(OBJS)
+	g++ $(OBJS) -o $(EXENAME) 
+
+main.o : main.cpp intro.h
+	g++ main.cpp
+
+intro.o: intro.cpp cs225/PNG.h cs225/HSLAPixel.h
+	g++ intro.cpp
+
+
+
+clean:
+	rm -f *.o

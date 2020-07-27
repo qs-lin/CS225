@@ -21,6 +21,7 @@ int main()
      * constructed?
      */
     Drawable* truck = new Truck(truck_center);
+    //Truck* truck = new Truck(truck_center);
 
     truck->draw(&canvas);
 

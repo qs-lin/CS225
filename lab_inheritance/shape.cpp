@@ -14,14 +14,17 @@ using cs225::HSLAPixel;
 const Vector2 DEFAULT_CENTER(64, 64);
 const HSLAPixel DEFAULT_COLOR = color::BLACK;
 
+
 Shape::Shape() : center_(DEFAULT_CENTER), color_(DEFAULT_COLOR)
 {
-    /* Nothing.  See initialization list. */
+  std::cout << "default shape ctor invoked" << std::endl;
 }
 
 Shape::Shape(const Vector2& pcenter, const HSLAPixel& pcolor)
     : center_(pcenter), color_(pcolor)
 {
+  //std::cout << "shape ctor invoked" << std::endl;
+  
     /* Nothing.  See initialization list. */
 }
 
@@ -70,4 +73,6 @@ void Shape::draw(PNG* canvas) const
 
     const Line backward_slash(top_left, bottom_right, color::RED);
     backward_slash.draw(canvas);
+
+    std::cout << "shape draw invoked " << std::endl;
 }

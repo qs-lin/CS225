@@ -105,6 +105,7 @@ TEST_CASE("test_constructor", "[weight=20]")
     REQUIRE(circle.color().l == color::ORANGE.l);
 }
 
+
 TEST_CASE("test_pure_virtual", "[weight=10][valgrind]")
 {
     PNG canvas;
@@ -117,10 +118,13 @@ TEST_CASE("test_pure_virtual", "[weight=10][valgrind]")
 
     soln.readFromFile("tests/soln_truck.png");
 
+    canvas.writeToFile("tests/my_truck.png");
+
     delete truck;
 
     compare_and_report(canvas, soln);
 }
+
 
 TEST_CASE("test_slicing", "[weight=20][valgrind]")
 {

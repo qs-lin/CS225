@@ -30,15 +30,32 @@ const HSLAPixel PISTIL_COLOR = color::YELLOW;
 const int PETAL_RADIUS = 2;
 const HSLAPixel PETAL_COLOR = color::RED;
 
+
+Flower::~Flower(){
+
+  if(stem!=NULL)
+    delete stem;
+  if(pistil!=NULL)
+    delete pistil;
+  if(leaf!=NULL)
+    delete leaf;
+
+
+}
+
 Flower::Flower(const Vector2& center)
+ //: stem(Rectangle(center,STEM_COLOR, STEM_WIDTH, STEM_HEIGHT)
+ : stem(nullptr), pistil(nullptr), leaf(nullptr)
 {
     const Vector2 stem_center(center.x(), center.y() + STEM_HEIGHT / 2);
+
     Rectangle my_stem(stem_center, STEM_COLOR, STEM_WIDTH, STEM_HEIGHT);
-    stem = my_stem;
+    //stem = my_stem;
+    stem = new Rectangle(my_stem); 
 
     Circle my_pistil(Vector2(center.x(), center.y() - PISTIL_RADIUS / 2),
                      PISTIL_COLOR, PISTIL_RADIUS);
-    pistil = my_pistil;
+    pistil = new Circle(my_pistil);
 
     const Vector2 leaf_center(stem_center.x() - STEM_WIDTH / 2 + 1,
                               stem_center.y() + STEM_HEIGHT / 4);
@@ -46,7 +63,7 @@ Flower::Flower(const Vector2& center)
         Vector2(leaf_center.x(), leaf_center.y() - STEM_HEIGHT / 4),
         Vector2(leaf_center.x() - LEAF_WIDTH, leaf_center.y() - LEAF_HEIGHT),
         Vector2(leaf_center.x() - LEAF_WIDTH / 2, leaf_center.y()));
-    leaf = my_leaf;
+    leaf = new Triangle(my_leaf);
 }
 
 
@@ -73,12 +90,12 @@ void Flower::drawPetals(PNG* canvas, const Vector2& center, int x, int y) const
 
 void Flower::draw(PNG* canvas) const
 {
-    stem.draw(canvas);
-    pistil.draw(canvas);
-    leaf.draw(canvas);
+    stem->draw(canvas);
+    pistil->draw(canvas);
+    leaf->draw(canvas);
     for (int x = 0; x < PISTIL_RADIUS; x++) {
         const double radius2 = PISTIL_RADIUS * PISTIL_RADIUS;
         const int y = static_cast<int>(sqrt(radius2 - (x * x)));
-        drawPetals(canvas, pistil.center(), x, y);
+        drawPetals(canvas, pistil->center(), x, y);
     }
 }

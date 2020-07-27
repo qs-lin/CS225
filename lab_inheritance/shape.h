@@ -35,8 +35,9 @@ class Shape : public Drawable
      */
     Shape(const Vector2& center, const cs225::HSLAPixel& color);
 
-    ~Shape()
+    virtual ~Shape()
     { /* Nothing */
+      //std::cout << "shape dtor invoked" << std::endl;
     }
 
     /**
@@ -44,14 +45,14 @@ class Shape : public Drawable
      *
      * @return the area (in pixels) of the Shape
      */
-    int area() const;
+    virtual int area() const;
 
     /**
      * Computes and returns the perimeter of the Shape in pixels
      *
      * @return the perimeter (in pixels) of the Shape
      */
-    int perimeter() const;
+    virtual int perimeter() const;
 
     /**
      * Checks to see if the Vector2 p is contained inside of the Shape
@@ -83,6 +84,7 @@ class Shape : public Drawable
      */
     cs225::HSLAPixel color() const;
 
-    void draw(cs225::PNG* canvas) const;
+    //void draw(cs225::PNG* canvas) const;
+    virtual void draw(cs225::PNG* canvas) const;
 };
 

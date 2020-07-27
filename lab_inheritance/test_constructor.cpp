@@ -14,6 +14,9 @@
 using cs225::PNG;
 using cs225::HSLAPixel;
 
+const Vector2 DEFAULT_CENTER(64, 64);
+const HSLAPixel DEFAULT_COLOR = color::BLACK;
+
 int main()
 {
     const int canvas_width = 128;
@@ -36,6 +39,7 @@ int main()
      * Can you make it so the circle is constructed with the proper color and
      * center position WITH OUT using set_center() or set_color()? */
     const bool correct_color = (circle->color() == circle_color);
+    //const bool correct_color = (circle->color() ==  DEFAULT_COLOR);
 
     if (correct_color) {
         std::cout << "Circle's color is correct!" << std::endl;
@@ -44,6 +48,7 @@ int main()
     }
 
     const bool correct_center = circle->center() == circle_center;
+    //const bool correct_center = circle->center() ==  DEFAULT_CENTER;
     if (correct_center) {
         std::cout << "Circle's center is correct!" << std::endl;
     } else {

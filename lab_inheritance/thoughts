@@ -1,0 +1,42 @@
+initializer list:
+
+For a constructor, it will allocate memories for class memembers and the function body will complete all necessary assignment oprations 
+
+{
+  A = other.A;
+  B = other.B;
+}
+
+note that function body does nothing but assignnement, so they can be totally replaced by copy constructor inside the initializer list
+
+So the constructor will instantiate class members (allocating memories) and the intializer list will initialize them. And we can finish other functions, like the assignment operators inside the function body.
+
+So we must use initializer list in the following cases:  
+
+(1) if member A has to be initialzed, like a non-static const or a reference. 
+(2) when constructor’s parameter name is same as data member 
+(3) performance reason: 
+      copy constructor in the initializer list A(a);
+        copy ctor + dtor of a 
+      assignment operation in function body { A = a;}
+        ctor of a + assignment opt + dtor of a;
+
+      so it's 2 steps vs 3 
+(4) For initialization of member objects which do not have default constructor: an object “a” of class “A” is data member of class “B”, and “A” doesn’t have default constructor. Initializer List must be used to initialize “a”. 
+
+    B::B(...):a(...){
+      
+    }
+
+    This is easy to understand. Ctor+Initialization list will instantiate class members and since A does not have a default ctor so we have to tell the compiler how to initialize it during creation.
+
+
+(5) For initialization of base class members:
+  c++ language rule:
+
+C++ prevents classes from initializing inherited member variables in the initialization list of a constructor.
+ (you may later assign values to inherited members as long as you have access, i.e., protected or public) 
+
+C++ gives us the ability to explicitly choose which base class constructor to be called.
+ (if you don't call parametrized, then default one is applied.
+  if there is no default one, then you must call parametriezd ctor in initialization list)

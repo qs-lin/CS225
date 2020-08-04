@@ -1,0 +1,7 @@
+1. note the difference between
+
+    const ListNode*& // a ref to a pointer to a const
+
+    ListNode* const & // a ref to a const pointer
+
+2. when you remove one element from the data container, it's better to return it to users.

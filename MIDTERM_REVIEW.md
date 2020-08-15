@@ -5,10 +5,10 @@ Thoeries review session
 ## Base class and derived class
 
 ```c++
-	class derived : public base {
+class derived : public base {
     
    
-  };
+};
 ```
 
 1. will inherit public members of base class (so remember to write all virtual functions in base public so derived class can inherit and override them)
@@ -54,7 +54,13 @@ virtual void myfunc() = 0;
 
 
 
-```c++
 
+
+```mermaid
+graph LR
+A[Hard edge] -->B(Round edge)
+    B --> C{Decision}
+    C -->|One| D[Result one]
+    C -->|Two| E[Result two]
 ```
 

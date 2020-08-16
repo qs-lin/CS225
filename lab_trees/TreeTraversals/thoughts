@@ -1,0 +1,38 @@
+For traversal, should we use Stack or Queue:
+    LevelTraversal: queue
+    In, Pre, Post: stack       
+
+For a node(r,left,right), if we push it and its children into a queue, then after operating its left child we will immediately operate its right child. So this is LevelTraversal. On the left hand, after operating left child, we want stay on the left tree (TL) and come back to right node (and its right tree TR), so we should use stack, which is last in first out (or first in, last out). In this case, if right node is first in, then it will be executed in the end (after finish everyting on the left).
+
+For In-Order, Pre-Order and Post-order:
+
+(1) intialize traversal:
+    since Pre-order starts from root, so after initializinng traversal_pot(myTree.getRoot), the top of stack should be the root.
+      stack.push(root)
+    for in-order and post-order, it should start from the left-most node (start from node and goes all the way to the left) 
+      node = root;
+      while(node!=NULL)
+        stack.push(node)
+        node=node->left
+
+(2) standard procedure for iterator ++
+This is the standard procedure for iterator ++ operations. Such virtual functions is defined in the base class (TreeTraversal.h) such that different derived classes (in-order, pre-order, post-order) can directly use this function. We just have to define different add() in each derived class
+    (i) top = stack.pop();  //fectch and remove the current top so that we can move on to the remaining nodes 
+    (ii) stack.add()  // add new nodes onto stack so that current top should be what we need
+    (iii) peek();  // set the current top to be our current node in the traversal
+      
+(3) add(node) in 3 cases
+    
+  pre-order: when you pop one node from the stack, you use process its left tree and right tree then 
+    stack.push(right);
+    stack.push(left);
+
+  in-order: when you pop one node and it has right child
+    node = stack.pop();
+    if(node->right != NULL)
+      node = node->right;
+   then you add all children on the left stick
+     
+  post-order:   
+
+

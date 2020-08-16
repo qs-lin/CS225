@@ -1,0 +1,97 @@
+
+template <typename T>
+void BinaryTree<T>::clear(BinaryTree::Node* subRoot)
+
+template <typename T>
+BinaryTree<T>::BinaryTree(typename BinaryTree<T>::Node* heapNode)
+    : root(heapNode)
+{ /* nothing */
+}
+
+template <typename T>
+typename BinaryTree<T>::Node * BinaryTree<T>::myHelperFunction(Node * node){
+}
+
+template <typename T>
+int BinaryTree<T>::height(const Node* subRoot) const{
+
+}
+
+---------
+
+there are 3 ways to write function parameters
+
+    Node*, typename BinaryTree<T>::Node*, BinaryTree::Node* subRoot
+
+and there are all good
+
+
+---------
+
+This one will not work 
+template <typename T>
+Node * BinaryTree<T>::myHelperFunction(Node * node){
+}
+since compiler does not know what Node is since it's a sub-class defined in binary class, so we need to scope it
+
+BinaryTree<T>::Node * BinaryTree<T>::myHelperFunction(Node * node){
+
+At this point, the compiler will think of Node as a member of Binary (that's what scope operator does). However, just like int myfunc(), the int in front of the function is a return type. Not an object or variable, but a type. So we let the compiler knows that BinaryTree<T>::Node * is a type not a variable by adding typename.
+
+the reason why we don't have to do this on the function parameter is BinaryTree<T>::myHelperFunction, i.e., this whole function has been scoped
+
+---------------------------------------------------------------------------------------------------------------------------------------
+
+
+how to bool BinaryTree<T>::isOrderedRecursive(Node *node):
+
+       1
+    2     3
+  4  5  6   7
+
+we know that for any node in a BST {N, TL, TR}, it should statisfy 
+
+(1) min<N<max (min or max undefined yet) 
+
+(2) N is max of TL, N is min of TR
+
+for example, for root node1, it should statisfy 
+
+-inf < node1 < +inf 
+node1 should be max of subtree TL (from node2) && node1 should be min of subtree TR (from node3);
+
+and we can continue this on node2
+
+-inf < node2 < node1
+node2 should be max of subtree TL (from node4) && node2 should be min of subtree TR (from node5);
+
+similarly for node3 we have 
+
+node1 < node3 < +inf
+node3 should be max of subtree TL (from node6) && node3 should be min of subtree TR (from node7);
+
+You can see that we can pass max/min to downstream during each recursion.
+
+
+---------------------------------------------------------------------------------------------------------------------------------------
+
+
+how to bool BinaryTree<T>::isOrderedRecursive(Node *node):
+
+       1
+    2     3
+  4  5  6   7
+
+
+lets say a function is{1,MAX,MIN} is to judge a tree with root1 is a BST bounded by MIN, MAX (left most node > MIN && right most node < MAX)
+then we take a look at its children 2 and 3
+the recursive definition of a BST {r, TL, TR} is data(TL) < r < data(TR) and TL && TR are both BST
+so we need to make sure is{2,1,MIN} && {3,MAX,1}. This makes sure that 
+TL is a BST bounded by 1 (<), i.e., left most node < node1. 
+TR is a BST bounded by 1 (>), i.e., right most node > node1.
+
+Note that at this point, we never require that we should put everything bigger should be on the right. Accordingly, there is no guarantee that left most node is acutally the smallest.
+So we should further require that node2 < node1 < node3.
+
+so we can easily write is{node, max, min} recursively
+

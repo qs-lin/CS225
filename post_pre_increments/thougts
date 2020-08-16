@@ -1,0 +1,16 @@
+difference between pre-increment and post-increment:
+
+pre-increment
+format: T& T::operator++();
+we notice here the return type is reference. 
+
+The object has been incremented and the reference to this object will be returned.
+
+
+post-increment
+format: T T::operator++(int);
+return type is by value.
+
+creates a copy of the object, increments or decrements the value of the object and returns the copy from before the increment or decrement.
+
+If the iterator itself is big, then pre-increment is more efficient since no copy is made in process.

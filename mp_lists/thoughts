@@ -1,0 +1,35 @@
+if one reference is binding to an object, it cannot be bound to another
+
+#include <iostream>
+#include <vector>
+
+int& myfunc(std::vector<int>& vec){
+
+  int& a = vec[1];
+
+  return a;
+}
+
+int main(){
+
+  std::vector<int> vec;
+  vec.push_back(10);
+  vec.push_back(20);
+
+
+  int&a = vec[0];
+  a = myfunc(vec);
+  a = 30;
+
+  std::cout << a << std::endl;
+  std::cout << "vec : " << vec[0] << " " << vec[1] << std::endl;
+
+  int& b = myfunc(vec);
+  b = 30;
+  std::cout << "vec : " << vec[0] << " " << vec[1] << std::endl;
+
+}
+
+
+the first rotate3() and tripleRorate() function in List.hpp~ is buggy because of the reason above.
+I set node = head_ and then I tried to set node to be the reference between 1->4 after first rotate3(). I thought I was using 1->4 as the start_ in 2nd rotation, but I was still using head_ actually. So the 1->4 has not been changed. That's why later when we print from the start, after 1 we will have 4 directly and ignored 5&6 in between.

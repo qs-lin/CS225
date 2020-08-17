@@ -1,0 +1,11 @@
+Key idea of Huffman compression:    
+
+use bit code to represent data
+allocate short bit code to represent frequent data
+allocate long bit code to represent infrequent
+
+construct a node <key, data> where key is the frequency
+we use data nodes to build a tree from bottom up so data nodes are leaves. 
+after building internal nodes, we will reach the root. So the root to a leaf is the length of the bit code of that particular data.
+since the route from a root to a leaf is unique, so we don't have to worry about mismatch.
+

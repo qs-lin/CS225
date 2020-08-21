@@ -1,0 +1,7 @@
+I spent some time trying to figure out why # of iterations of DFS is smaller than # of valid points.
+Actually this is quite obvious. Imagine on your figure, there are only two blocks are valid (<tolerance),
+one is in the upper left corner and the other is lower right and they are seperated far away. So if you start from 
+upper left, you will never traverse into the lower right corner due to the gap in between. so these two numbers are equal
+only when tolerance is set to be very large so that all points are valid so there is no gap. 
+
+

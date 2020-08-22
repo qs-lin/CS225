@@ -1,0 +1,10 @@
+$(EXE): $(OBJ_FILES)
+    g++ $^ -o $@
+
+$(OBJ_FILES): $(SRC_FILES)
+    g++ -c $< -o $@
+
+
+clean:
+    rm -f *.o ./main
+

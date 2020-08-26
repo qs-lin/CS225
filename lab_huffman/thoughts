@@ -9,3 +9,28 @@ we use data nodes to build a tree from bottom up so data nodes are leaves.
 after building internal nodes, we will reach the root. So the root to a leaf is the length of the bit code of that particular data.
 since the route from a root to a leaf is unique, so we don't have to worry about mismatch.
 
+
+-------------------
+
+Learnt how to write/read binary files
+
+Learnt how to use std::map<KEY,DATA> (c++ balanced BST implemented in black/red tree)
+
+Write tree to a file
+write_tree(TreeNode*) (pre-order):
+
+  bfile.write(node)
+  write_tree(node->left);
+  write_tree(node->right)
+
+read tree from a file
+read_tree(TreeNode*)
+
+  bfile.read(node)
+  read_tree(node->left)
+  read_tree(node->right)
+
+
+I think pre-order is the only way. If you want to readTree recursively, that means you have to start
+from root so you can use readTree(node->left) and readTree(node->right) recursively. That means the root should
+be at the begininng, so you should write root first, which is pre-order.

@@ -1,0 +1,5 @@
+Use auto to save work
+This does not work 
+  std::map<std::string,std::vector<std::string>>::iterator it = dict.find(w1);
+but this works
+  auto it = dict.find(w1);

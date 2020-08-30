@@ -175,10 +175,29 @@ A complete binary tree. We use the tree only as the visualization and we use the
 
 ### 		BuildHeap()
 
-   1. sort O(nlogn)
+   1. sort O(nlogn) and fill in 
 
    2. call insert n times O(nlogn)
 
    3. for(i=parent[size-1]; i>0; --i) heapifyDown
 
       Since each leaf is a heap by itself so we start from 1st non leaf, which is the parent of the last elem.	
+
+
+
+
+
+### Heap sort
+
+time complexity = O(nlogn)
+
+  = build heap (O(n)) + pop from heap ( nlog(n)) : each removal takes logn since we have to heapifydown.
+
+And the way we pop the root is to replae the root (index=1) with the last element, heapify down the new root and reduce the heap size by 1. So for a min heap, after removing all elements from the heap, the new array is in descending order. So if we are looking/searching for largest elements, we use minHeap.
+
+### Heap search
+
+time complexity = O(nlogk)
+
+We use minHeap: we only wanna keep kth largest elements in the heap so we have to eject smaller items. That's why we use minHeap. So we first insert items into heap until the size reaches k. And we compare the new item with the root(peek() only takes O(1) time), if it's smaller than root, we don't even bother to insert this one. If it's larger than root, we insert at O(logK). We use K here because there are only k elements in the heap.
+

@@ -1,0 +1,6 @@
+To build a BST:
+    (1) keep inserting all items into the tree
+    (2) using the same method as the KDTree: pick up the median ( ceil[n/2] largest) and do the partition. Set the node to the median and set its left and right subtrees recursively. 
+        i.e., left = median of left half after partition; right = median of right half after partition.
+
+        For a kd tree, we are dealing with k-dimensional object and we change the dimension to compare in different layers. 

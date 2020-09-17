@@ -1,0 +1,6 @@
+I firstly put all all into the removal_vector. And I select one wall randomly from this pool, get its coord by the map, and then check if we can set this wall to be false. And we erase this wall from the vector so that we will not come back to the same wall next time. And the iteration stops when vec.size()==0. The problem is that this is a very long vector, even if each operation is O(1), the overall O(n) is still too slow.
+
+I then realize that we don't have to stop when vec.size()==0. We can stop when forest.size(0)=width*height. At this point, we know we can start from the upper-left corner and reach each single point this graph without any cycle (note whenever we remove a wall, we will do cycle detection). However, it's still super slow. I then realize there is no need to use this vector and map. Just get the coord by the random number directly. They are helpful if you want go through all walls as mentioned above, but now we know that there is no need to do that. 
+
+why forest.size(0) == width*height is equivalent the statement "when there no more walls to be removed":
+    when forest.size(0) = width*height we know that all cells are in the same set. If you remove one more wall, that means cell a and cell b are the connected. Since they are already in the same set, then a cycle is created. 
